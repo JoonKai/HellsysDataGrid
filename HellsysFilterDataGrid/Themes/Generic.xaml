@@ -1,0 +1,17 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:control="clr-namespace:HellsysFilterDataGrid">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/HellsysFilterDataGrid;component/Themes/HellsysFilterDataGrid.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--
+        EXTERNAL ACCESS FOR CUSTOMIZE DEFAULT STYLE
+        SEE FILTERDATAGRID DEFAULT STYLE
+    -->
+    <Style x:Key="{ComponentResourceKey {x:Type control:HellsysFilterDataGrid},FilterDataGridStyle}"
+           BasedOn="{StaticResource {x:Type control:HellsysFilterDataGrid}}"
+           TargetType="{x:Type control:HellsysFilterDataGrid}" />
+</ResourceDictionary>

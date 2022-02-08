@@ -1,0 +1,143 @@
+﻿<Window x:Class="HellsysDataGrid.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:control="clr-namespace:HellsysFilterDataGrid;assembly=HellsysFilterDataGrid"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HellsysDataGrid"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Margin="50,40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            Margin="0,10"
+            HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Label
+                    Margin="0,0,20,0"
+                    VerticalAlignment="Bottom"
+                    Content="Global search (first and last names)"
+                    FontWeight="Bold" />
+                <TextBox
+                    Height="26"
+                    MinWidth="200"
+                    VerticalAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}" />
+
+                <Button
+                    Width="Auto"
+                    Margin="20,0,0,0"
+                    Padding="4"
+                    Command="{Binding RefreshCommand}"
+                    Content="Reset list"
+                    Cursor="Hand" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                <Label Content="{Binding ElementName=FilterDataGrid, Path=Translate.LanguageName}" ContentStringFormat="FilterLanguage property : {0}" />
+            </StackPanel>
+        </Grid>
+
+        <TextBlock
+            Grid.Row="1"
+            Margin="10,10,0,2"
+            FontSize="13"
+            FontWeight="DemiBold"
+            Text="{Binding ElementName=FilterDataGrid, Path=Items.Count, StringFormat=Custom colums : {0:### ### ###} items, UpdateSourceTrigger=PropertyChanged}" />
+
+        <!--
+            CUSTOM COLUMNS
+            See the global style "FilterDatagridStyle" in App.xaml
+        -->
+        <control:HellsysFilterDataGrid
+            x:Name="FilterDataGrid"
+            Grid.Row="2"
+            AutoGenerateColumns="False"
+            DateFormatString="d"
+            FilterLanguage="Korean"
+            ItemsSource="{Binding FilteredList, UpdateSourceTrigger=PropertyChanged}"
+            ShowElapsedTime="True"
+            ShowRowsCount="True"
+            ShowStatusBar="True"
+            Style="{StaticResource FilterDatagridStyle}">
+            <control:HellsysFilterDataGrid.Columns>
+                <control:DataGridTemplateColumn
+                    FieldName="LastName"
+                    Header="Last name"
+                    IsColumnFiltered="True"
+                    SortMemberPath="LastName">
+                    <control:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="local:Employe">
+                            <TextBlock Text="{Binding LastName}" />
+                        </DataTemplate>
+                    </control:DataGridTemplateColumn.CellTemplate>
+                </control:DataGridTemplateColumn>
+
+                <control:DataGridTextColumn
+                    Binding="{Binding FirstName}"
+                    Header="First name"
+                    IsColumnFiltered="True" />
+
+                <control:DataGridTextColumn
+                    Binding="{Binding Age}"
+                    Header="Age"
+                    IsColumnFiltered="True" />
+
+                <control:DataGridTextColumn
+                    Binding="{Binding Salary}"
+                    Header="Salary"
+                    IsColumnFiltered="True" />
+
+                <control:DataGridTextColumn
+                    Binding="{Binding Manager}"
+                    Header="Manager"
+                    IsColumnFiltered="True" />
+
+                <control:DataGridTextColumn
+                    Binding="{Binding StartDate}"
+                    Header="Start Date"
+                    IsColumnFiltered="True" />
+            </control:HellsysFilterDataGrid.Columns>
+        </control:HellsysFilterDataGrid>
+
+        <!--
+            AUTO GENERATE COLUMNS
+            See the global style "FilterDatagridStyle" in App.xaml
+        -->
+        <TextBlock
+            Grid.Row="3"
+            Margin="10,10,0,2"
+            FontSize="13"
+            FontWeight="DemiBold"
+            Text="{Binding ElementName=FilterDataGridAuto, Path=Items.Count, StringFormat=Auto generate columns : {0:### ### ###} items}"
+            Visibility="Visible" />
+
+        <control:HellsysFilterDataGrid
+            x:Name="FilterDataGridAuto"
+            Grid.Row="4"
+            AutoGenerateColumns="True"
+            FilterLanguage="Korean"
+            ItemsSource="{Binding Employes, UpdateSourceTrigger=PropertyChanged}"
+            ShowElapsedTime="True"
+            ShowRowsCount="True"
+            ShowStatusBar="True"
+            Style="{StaticResource FilterDatagridStyle}" />
+    </Grid>
+</Window>
